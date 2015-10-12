@@ -1,0 +1,25 @@
+﻿#pragma kernel CSMain
+
+RWTexture2D<float> texCur;
+Texture2D<float> texDest;
+
+[numthreads(16,16,1)]
+void CSMain (uint2 id : SV_DispatchThreadID)
+{
+
+	float c = texCur[id];
+	float d = texDest[id];
+	if (c > d)
+	{
+		c -= 0.02;
+		if (c < d)
+			c = d;
+	}
+	else if (c < d)
+	{
+		c += 0.02;
+		if (c > d)
+			c = d;
+	}
+    texCur[id] = c;
+}
